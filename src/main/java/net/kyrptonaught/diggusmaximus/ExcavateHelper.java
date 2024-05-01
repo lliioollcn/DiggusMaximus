@@ -65,7 +65,7 @@ public class ExcavateHelper {
         return (world.getBlockState(pos).getBlock());
     }
 
-    static boolean canMine(PlayerEntity player, Item tool, World world, BlockPos startPos, BlockPos pos) {
+    static boolean canMine(PlayerEntity player, ItemStack tool, World world, BlockPos startPos, BlockPos pos) {
         return isWithinDistance(startPos, pos) && checkTool(player, tool) && isBreakableBlock(getBlockAt(world, pos));
     }
 
@@ -77,18 +77,18 @@ public class ExcavateHelper {
         return pos.isWithinDistance(startPos, maxDistance);
     }
 
-    private static boolean checkTool(PlayerEntity player, Item tool) {
+    private static boolean checkTool(PlayerEntity player, ItemStack tool) {
         if (player.isCreative()) return true;
         ItemStack heldItem = player.getMainHandStack();
         if (DiggusMaximusMod.getOptions().dontBreakTool && heldItem.getDamage() + 1 == tool.getMaxDamage())
             return false;
-        if (heldItem.getItem() != tool)
+        if (heldItem.getItem() != tool.getItem())
             if (DiggusMaximusMod.getOptions().stopOnToolBreak || DiggusMaximusMod.getOptions().requiresTool)
                 return false;
-        return isTool(heldItem.getItem()) || !DiggusMaximusMod.getOptions().requiresTool;
+        return isTool(heldItem) || !DiggusMaximusMod.getOptions().requiresTool;
     }
 
-    private static boolean isTool(Item isTool) {
-        return isTool.isDamageable() || DiggusMaximusMod.getOptions().tools.contains(Registries.ITEM.getId(isTool).toString());
+    private static boolean isTool(ItemStack isTool) {
+        return isTool.isDamageable() || DiggusMaximusMod.getOptions().tools.contains(Registries.ITEM.getId(isTool.getItem()).toString());
     }
 }

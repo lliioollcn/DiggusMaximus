@@ -3,6 +3,7 @@ package net.kyrptonaught.diggusmaximus;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -17,7 +18,7 @@ public class Excavate {
     private final BlockPos startPos;
     private final PlayerEntity player;
     private Identifier startID;
-    private final Item startTool;
+    private final ItemStack startTool;
     private int mined = 0;
     private final World world;
     private final Deque<BlockPos> points = new ArrayDeque<>();
@@ -34,7 +35,7 @@ public class Excavate {
         if (ExcavateHelper.configAllowsMining(blockID.toString()))
             this.startID = blockID;
 
-        this.startTool = player.getMainHandStack().getItem();
+        this.startTool = player.getMainHandStack();
         this.facing = facing;
     }
 
